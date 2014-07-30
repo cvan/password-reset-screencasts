@@ -5,14 +5,18 @@ Screencasts of good and bad UX for "Password Reset" flows.
 Created using CasperJS (using the SlimerJS engine) and ffmeg.
 
 
-# Installation
+## Installation
 
-Using [homebrew](http://brew.sh/), install the following:
+Using [Homebrew](http://brew.sh/), install the following:
 
-    brew install casperjs slimerjs ffmpeg
+    brew install casperjs slimerjs ffmpeg --with-libvpx --with-theora --with-libogg --with-libvorbis
+
+If you've already installed ffmpeg but without the aforementioned codes, reinstall:
+
+    brew install ffmpeg --with-libvpx --with-theora --with-libogg --with-libvorbis
 
 
-# Usage
+## Usage
 
 To generate all the screencasts:
 
