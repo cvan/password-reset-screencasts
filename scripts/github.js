@@ -3,14 +3,28 @@ var page = require('webpage').create();
 var mouse = require('mouse').create(casper);
 
 
+var URL = 'https://github.com/login';
+var SLUG = 'github';
+var DIMENSIONS = {width: 1024, height: 768};
+var shot = 0;
+var scenario = 0;
+
+
 var utils = {
+  snap: function(frames) {
+    for (var i = 0; i < (frames || 1); i++) {
+      casper.capture('../tmp/' + SLUG + '_' + scenario + '_' + utils.padDigits(shot++, 3) + '.png', {
+        top: 0,
+        left: 0,
+        width: DIMENSIONS.width,
+        height: DIMENSIONS.height
+      });
+    }
+  },
   padDigits: function(number, digits) {
     return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
   }
 };
-
-
-var URL = 'https://github.com/login';
 
 
 // Email provided.
@@ -18,33 +32,27 @@ var URL = 'https://github.com/login';
 // Forgot password link clicked.
 // -> Email not preserved.
 casper.start(URL).then(function () {
-  var self = this;
-  var shot = 1;
+  scenario++;
+  shot = 1;
 
-  casper.viewport(1024, 768);
+  casper.viewport(DIMENSIONS.width, DIMENSIONS.height);
 
-  function snap(frames) {
-    for (var i = 0; i < (frames || 1); i++) {
-      self.capture('../tmp/github_1_' + utils.padDigits(shot++, 3) + '.png');
-    }
-  }
-
-  snap();
-  self.mouse.click('input[name=login]');
-  snap();
+  utils.snap();
+  casper.mouse.click('input[name=login]');
+  utils.snap();
 
   'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=login]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=login]', chr, {keepFocus: true});
+    utils.snap();
   });
 
-  self.mouse.move('form a[href*=forgot_password]');
-  snap();
-  self.mouse.click('form a[href*=forgot_password]');
-  snap();
+  casper.mouse.move('form a[href*=forgot_password]');
+  utils.snap();
+  casper.mouse.click('form a[href*=forgot_password]');
+  utils.snap();
 
   casper.waitForSelector('#forgot_password_form', function() {
-    snap(20);
+    utils.snap(20);
   });
 });
 
@@ -54,38 +62,32 @@ casper.start(URL).then(function () {
 // Forgot password link clicked.
 // -> Email not preserved.
 casper.thenOpen(URL).then(function () {
-  var self = this;
-  var shot = 1;
+  scenario++;
+  shot = 1;
 
-  casper.viewport(1024, 768);
+  casper.viewport(DIMENSIONS.width, DIMENSIONS.height);
 
-  function snap(frames) {
-    for (var i = 0; i < (frames || 1); i++) {
-      self.capture('../tmp/github_2_' + utils.padDigits(shot++, 3) + '.png');
-    }
-  }
-
-  snap();
-  self.mouse.click('input[name=login]');
-  snap();
+  utils.snap();
+  casper.mouse.click('input[name=login]');
+  utils.snap();
 
   'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=login]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=login]', chr, {keepFocus: true});
+    utils.snap();
   });
 
   'swag'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=password]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=password]', chr, {keepFocus: true});
+    utils.snap();
   });
 
-  self.mouse.move('form a[href*=forgot_password]');
-  snap();
-  self.mouse.click('form a[href*=forgot_password]');
-  snap();
+  casper.mouse.move('form a[href*=forgot_password]');
+  utils.snap();
+  casper.mouse.click('form a[href*=forgot_password]');
+  utils.snap();
 
   casper.waitForSelector('#forgot_password_form', function() {
-    snap(20);
+    utils.snap(20);
   });
 });
 
@@ -95,45 +97,39 @@ casper.thenOpen(URL).then(function () {
 // Form submitted.
 // -> Email not preserved.
 casper.thenOpen(URL).then(function () {
-  var self = this;
-  var shot = 1;
+  scenario++;
+  shot = 1;
 
-  casper.viewport(1024, 768);
+  casper.viewport(DIMENSIONS.width, DIMENSIONS.height);
 
-  function snap(frames) {
-    for (var i = 0; i < (frames || 1); i++) {
-      self.capture('../tmp/github_3_' + utils.padDigits(shot++, 3) + '.png');
-    }
-  }
-
-  snap();
-  self.mouse.click('input[name=login]');
-  snap();
+  utils.snap();
+  casper.mouse.click('input[name=login]');
+  utils.snap();
 
   casper.evaluate(function () {
     document.querySelector('input[name=login]').focus();
   });
 
   'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=login]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=login]', chr, {keepFocus: true});
+    utils.snap();
   });
 
-  self.mouse.move('#login input[type=submit]');
-  snap();
-  self.mouse.click('#login input[type=submit]')
-  snap();
+  casper.mouse.move('#login input[type=submit]');
+  utils.snap();
+  casper.mouse.click('#login input[type=submit]')
+  utils.snap();
 
   casper.waitForSelector('.flash-messages .flash-error', function() {
-    snap(20);
+    utils.snap(20);
 
-    self.mouse.move('form a[href*=forgot_password]');
-    snap();
-    self.mouse.click('form a[href*=forgot_password]');
-    snap();
+    casper.mouse.move('form a[href*=forgot_password]');
+    utils.snap();
+    casper.mouse.click('form a[href*=forgot_password]');
+    utils.snap();
 
     casper.waitForSelector('#forgot_password_form', function() {
-      snap(20);
+      utils.snap(20);
     });
   });
 });
@@ -144,50 +140,44 @@ casper.thenOpen(URL).then(function () {
 // Form submitted.
 // -> Email *was* preserved.
 casper.thenOpen(URL).then(function () {
-  var self = this;
-  var shot = 1;
+  scenario++;
+  shot = 1;
 
-  casper.viewport(1024, 768);
+  casper.viewport(DIMENSIONS.width, DIMENSIONS.height);
 
-  function snap(frames) {
-    for (var i = 0; i < (frames || 1); i++) {
-      self.capture('../tmp/github_4_' + utils.padDigits(shot++, 3) + '.png');
-    }
-  }
-
-  snap();
-  self.mouse.click('input[name=login]');
-  snap();
+  utils.snap();
+  casper.mouse.click('input[name=login]');
+  utils.snap();
 
   casper.evaluate(function () {
     document.querySelector('input[name=login]').focus();
   });
 
   'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=login]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=login]', chr, {keepFocus: true});
+    utils.snap();
   });
 
   'swag'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=password]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=password]', chr, {keepFocus: true});
+    utils.snap();
   });
 
-  self.mouse.move('#login input[type=submit]');
-  snap();
-  self.mouse.click('#login input[type=submit]')
-  snap();
+  casper.mouse.move('#login input[type=submit]');
+  utils.snap();
+  casper.mouse.click('#login input[type=submit]')
+  utils.snap();
 
   casper.waitForSelector('.flash-messages .flash-error', function() {
-    snap(20);
+    utils.snap(20);
 
-    self.mouse.move('form a[href*=forgot_password]');
-    snap();
-    self.mouse.click('form a[href*=forgot_password]');
-    snap();
+    casper.mouse.move('form a[href*=forgot_password]');
+    utils.snap();
+    casper.mouse.click('form a[href*=forgot_password]');
+    utils.snap();
 
     casper.waitForSelector('#forgot_password_form', function() {
-      snap(20);
+      utils.snap(20);
     });
   });
 });
@@ -198,42 +188,36 @@ casper.thenOpen(URL).then(function () {
 // Forgot password link clicked.
 // -> Previous email was preserved!
 casper.thenOpen(URL).then(function () {
-  var self = this;
-  var shot = 1;
+  scenario++;
+  shot = 1;
 
-  casper.viewport(1024, 768);
+  casper.viewport(DIMENSIONS.width, DIMENSIONS.height);
 
-  function snap(frames) {
-    for (var i = 0; i < (frames || 1); i++) {
-      self.capture('../tmp/github_5_' + utils.padDigits(shot++, 3) + '.png');
-    }
-  }
-
-  snap();
-  self.mouse.click('input[name=login]');
-  snap();
+  utils.snap();
+  casper.mouse.click('input[name=login]');
+  utils.snap();
 
   casper.evaluate(function () {
     document.querySelector('input[name=login]').focus();
   });
 
   'scrantonicity@gmail.com'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=login]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=login]', chr, {keepFocus: true});
+    utils.snap();
   });
 
   'yolo4eva'.split('').forEach(function (chr) {
-    self.sendKeys('input[name=password]', chr, {keepFocus: true});
-    snap();
+    casper.sendKeys('input[name=password]', chr, {keepFocus: true});
+    utils.snap();
   });
 
-  self.mouse.move('form a[href*=forgot_password]');
-  snap();
-  self.mouse.click('form a[href*=forgot_password]');
-  snap();
+  casper.mouse.move('form a[href*=forgot_password]');
+  utils.snap();
+  casper.mouse.click('form a[href*=forgot_password]');
+  utils.snap();
 
   casper.waitForSelector('#forgot_password_form', function() {
-    snap(20);
+    utils.snap(20);
   });
 });
 
