@@ -1,9 +1,8 @@
-NUMBERS=$(shell seq 1 5)
 SLIMERJSLAUNCHER?='/Applications/Firefox24.app/Contents/MacOS/firefox'
 
-.PHONY: all screencasts screencasts_github
+.PHONY: all screencasts github airbnb
 
-all: screencasts_github
+all: github airbnb
 
 screencasts:
 	@pushd scripts && \
@@ -20,5 +19,8 @@ screencasts:
  		echo "Creating ${SITE} screencast #${i}: \033[7;42m SUCCESS \033[0m";)
 	@rm -f tmp/${SITE}_*_*.png
 
-screencasts_github:
-	@SITE='github' make screencasts
+github:
+	@SITE='github' NUMBERS='1 2 3 4 5' make screencasts
+
+airbnb:
+	@SITE='airbnb' NUMBERS='1 2 3 4 5 6' make screencasts
