@@ -8,6 +8,15 @@ var shot = 0;
 var scenario = 0;
 
 
+if (typeof Array.from === 'undefined') {
+  // Incomplete polyfill, but suits our needs.
+  Array.from = function (arrayLike) {
+    if (typeof arrayLike === 'string') {
+      return arrayLike.split('');
+    }
+  };
+}
+
 var utils = {
   open: function (func) {
     return function () {
@@ -37,9 +46,8 @@ var utils = {
 
 
 // On homepage.
-// Email provided.
-// No password provided.
-// Forgot password link clicked.
+// Only email provided.
+// "Forgot password" link clicked.
 // -> Email *is* preserved.
 casper.start(URL).then(utils.open(function () {
   utils.snap(15);
@@ -49,8 +57,8 @@ casper.start(URL).then(utils.open(function () {
   casper.mouse.click('#login a');
   utils.snap();
 
-  casper.waitForSelector('.login-form', function () {
-    'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
       casper.sendKeys('#signin_email', chr, {keepFocus: true});
       utils.snap();
     });
@@ -60,127 +68,16 @@ casper.start(URL).then(utils.open(function () {
     casper.mouse.click('.forgot-password');
     utils.snap();
 
-    casper.waitForSelector('#forgot_password_container', function () {
+    casper.waitForSelector('#forgot_password_container').then(function () {
       utils.snap(20);
     });
   });
 }));
 
 
-URL = 'https://www.airbnb.com/login';
-
-
-// On Log In page.
-// Email provided.
-// No password provided.
-// Forgot password link clicked.
-// -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
-  utils.snap(15);
-
-  casper.mouse.move('#login a');
-  utils.snap();
-  casper.mouse.click('#login a');
-  utils.snap();
-
-  casper.waitForSelector('.login-form', function () {
-    'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-      casper.sendKeys('#signin_email', chr, {keepFocus: true});
-      utils.snap();
-    });
-
-    casper.mouse.move('.forgot-password');
-    utils.snap();
-    casper.mouse.click('.forgot-password');
-    utils.snap();
-
-    casper.waitForSelector('#forgot_password_container', function () {
-      utils.snap(20);
-    });
-  });
-}));
-
-
-// On Log In page.
-// Email provided.
-// Incomplete password provided.
-// Forgot password link clicked.
-// -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
-  utils.snap(15);
-
-  casper.mouse.move('#login a');
-  utils.snap();
-  casper.mouse.click('#login a');
-  utils.snap();
-
-  casper.waitForSelector('.login-form', function () {
-    'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-      casper.sendKeys('#signin_email', chr, {keepFocus: true});
-      utils.snap();
-    });
-
-    'swag'.split('').forEach(function (chr) {
-      casper.sendKeys('#signin_password', chr, {keepFocus: true});
-      utils.snap();
-    });
-
-    casper.mouse.move('.forgot-password');
-    utils.snap();
-    casper.mouse.click('.forgot-password');
-    utils.snap();
-
-    casper.waitForSelector('#forgot_password_container', function () {
-      utils.snap(20);
-    });
-  });
-}));
-
-
-// On Log In page.
-// Email provided.
-// No password provided.
-// Form submitted.
-// -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
-  utils.snap(15);
-
-  casper.mouse.move('#login a');
-  utils.snap();
-  casper.mouse.click('#login a');
-  utils.snap();
-
-  casper.waitForSelector('.login-form', function () {
-    'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
-      casper.sendKeys('#signin_email', chr, {keepFocus: true});
-      utils.snap();
-    });
-
-    casper.mouse.move('.login-form button[type=submit]');
-    utils.snap();
-    casper.mouse.click('.login-form button[type=submit]');
-    utils.snap();
-
-    casper.waitForSelector('label[for=signin_password].error', function () {
-      utils.snap(20);
-
-      casper.mouse.move('.forgot-password');
-      utils.snap();
-      casper.mouse.click('.forgot-password');
-      utils.snap();
-
-      casper.waitForSelector('#forgot_password_container', function () {
-        utils.snap(20);
-      });
-    });
-  });
-}));
-
-
-// On Log In page.
-// Email provided.
-// Incorrect password provided.
-// Form submitted.
+// On homepage.
+// Email and password provided.
+// "Forgot password" link clicked.
 // -> Email *is* preserved.
 casper.thenOpen(URL).then(utils.open(function () {
   utils.snap(15);
@@ -190,13 +87,89 @@ casper.thenOpen(URL).then(utils.open(function () {
   casper.mouse.click('#login a');
   utils.snap();
 
-  casper.waitForSelector('.login-form', function () {
-    'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
       casper.sendKeys('#signin_email', chr, {keepFocus: true});
       utils.snap();
     });
 
-    'swaggy'.split('').forEach(function (chr) {
+    Array.from('swaggy123').forEach(function (chr) {
+      casper.sendKeys('#signin_password', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.forgot-password');
+    utils.snap();
+    casper.mouse.click('.forgot-password');
+    utils.snap();
+
+    casper.waitForSelector('#forgot_password_container').then(function () {
+      utils.snap(20);
+    });
+  });
+}));
+
+
+// On homepage.
+// Only email provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> Email *is* preserved.
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.login-form button[type=submit]');
+    utils.snap();
+    casper.mouse.click('.login-form button[type=submit]');
+    utils.snap();
+
+    casper.waitForSelector('label[for="signin_password"].error').then(function () {
+      utils.snap(20);
+
+      casper.mouse.move('.forgot-password');
+      utils.snap();
+      casper.mouse.click('.forgot-password');
+      utils.snap();
+
+      casper.waitForSelector('#forgot_password_container').then(function () {
+        utils.snap(20);
+      });
+    });
+  });
+}));
+
+
+// On homepage.
+// Email and password provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> Email *is* preserved.
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    Array.from('swaggy123').forEach(function (chr) {
       casper.sendKeys('#signin_password', chr, {keepFocus: true});
       utils.snap();
     });
@@ -206,7 +179,11 @@ casper.thenOpen(URL).then(utils.open(function () {
     casper.mouse.click('.login-form button[type=submit]');
     utils.snap();
 
-    casper.waitForSelector('.alert', function () {
+    casper.waitFor(function () {
+      return this.evaluate(function () {
+        return !!document.getElementById('notice').innerHTML;
+      });
+    }).then(function () {
       utils.snap(20);
 
       casper.mouse.move('.forgot-password');
@@ -214,7 +191,7 @@ casper.thenOpen(URL).then(utils.open(function () {
       casper.mouse.click('.forgot-password');
       utils.snap();
 
-      casper.waitForSelector('#forgot_password_container', function () {
+      casper.waitForSelector('#forgot_password_container').then(function () {
         utils.snap(20);
       });
     });
@@ -222,11 +199,11 @@ casper.thenOpen(URL).then(utils.open(function () {
 }));
 
 
-// On Log In page.
-// Different email provided.
-// No password provided.
-// Forgot password link clicked.
-// -> Previous email is not preserved.
+// On homepage.
+// Different email and password provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> New email *is* preserved.
 casper.thenOpen(URL).then(utils.open(function () {
   utils.snap(15);
 
@@ -235,8 +212,59 @@ casper.thenOpen(URL).then(utils.open(function () {
   casper.mouse.click('#login a');
   utils.snap();
 
-  casper.waitForSelector('.login-form', function () {
-    'scrantonicity@gmail.com'.split('').forEach(function (chr) {
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('scrantonicity4eva@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    Array.from('yolo123').forEach(function (chr) {
+      casper.sendKeys('#signin_password', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.login-form button[type=submit]');
+    utils.snap();
+    casper.mouse.click('.login-form button[type=submit]');
+    utils.snap();
+
+    casper.waitFor(function () {
+      return casper.evaluate(function () {
+        return !!document.getElementById('notice').innerHTML;
+      });
+    }).then(function () {
+      utils.snap(20);
+
+      casper.mouse.move('.forgot-password');
+      utils.snap();
+      casper.mouse.click('.forgot-password');
+      utils.snap();
+
+      casper.waitForSelector('#forgot_password_container').then(function () {
+        utils.snap(20);
+      });
+    });
+  });
+}));
+
+
+URL = 'https://www.airbnb.com/login';
+
+
+// On "Log In" page.
+// Only email provided.
+// "Forgot password" link clicked.
+// -> Email is not preserved.
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
       casper.sendKeys('#signin_email', chr, {keepFocus: true});
       utils.snap();
     });
@@ -246,8 +274,172 @@ casper.thenOpen(URL).then(utils.open(function () {
     casper.mouse.click('.forgot-password');
     utils.snap();
 
-    casper.waitForSelector('#forgot_password_container', function () {
+    casper.waitForSelector('#forgot_password_container').then(function () {
       utils.snap(20);
+    });
+  });
+}));
+
+
+// On "Log In" page.
+// Email and password provided.
+// "Forgot password" link clicked.
+// -> Email is not preserved.
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    Array.from('swaggy123').forEach(function (chr) {
+      casper.sendKeys('#signin_password', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.forgot-password');
+    utils.snap();
+    casper.mouse.click('.forgot-password');
+    utils.snap();
+
+    casper.waitForSelector('#forgot_password_container').then(function () {
+      utils.snap(20);
+    });
+  });
+}));
+
+
+// On "Log In" page.
+// Only email provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> Email is not preserved.
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.login-form button[type=submit]');
+    utils.snap();
+    casper.mouse.click('.login-form button[type=submit]');
+    utils.snap();
+
+    casper.waitForSelector('label[for=signin_password].error').then(function () {
+      utils.snap(20);
+
+      casper.mouse.move('.forgot-password');
+      utils.snap();
+      casper.mouse.click('.forgot-password');
+      utils.snap();
+
+      casper.waitForSelector('#forgot_password_container').then(function () {
+        utils.snap(20);
+      });
+    });
+  });
+}));
+
+
+// // On "Log In" page.
+// // Email and password provided.
+// // Form submitted.
+// // -> Email *is* preserved.
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    Array.from('swaggy123').forEach(function (chr) {
+      casper.sendKeys('#signin_password', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.login-form button[type=submit]');
+    utils.snap();
+    casper.mouse.click('.login-form button[type=submit]');
+    utils.snap();
+
+    casper.waitForSelector('.alert').then(function () {
+      utils.snap(20);
+
+      casper.mouse.move('.forgot-password');
+      utils.snap();
+      casper.mouse.click('.forgot-password');
+      utils.snap();
+
+      casper.waitForSelector('#forgot_password_container').then(function () {
+        utils.snap(20);
+      });
+    });
+  });
+}));
+
+
+// On homepage.
+// Different email and password provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> New email is not preserved (nor is old email preserved).
+casper.thenOpen(URL).then(utils.open(function () {
+  utils.snap(15);
+
+  casper.mouse.move('#login a');
+  utils.snap();
+  casper.mouse.click('#login a');
+  utils.snap();
+
+  casper.waitForSelector('.login-form').then(function () {
+    Array.from('scrantonicity4eva@gmail.com').forEach(function (chr) {
+      casper.sendKeys('#signin_email', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    Array.from('yolo123').forEach(function (chr) {
+      casper.sendKeys('#signin_password', chr, {keepFocus: true});
+      utils.snap();
+    });
+
+    casper.mouse.move('.login-form button[type=submit]');
+    utils.snap();
+    casper.mouse.click('.login-form button[type=submit]');
+    utils.snap();
+
+    casper.waitForSelector('.alert').then(function () {
+      utils.snap(20);
+
+      casper.mouse.move('.forgot-password');
+      utils.snap();
+      casper.mouse.click('.forgot-password');
+      utils.snap();
+
+      casper.waitForSelector('#forgot_password_container').then(function () {
+        utils.snap(20);
+      });
     });
   });
 }));

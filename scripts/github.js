@@ -147,7 +147,7 @@ casper.thenOpen(URL).then(utils.open(function () {
     utils.snap();
   });
 
-  'swaggy'.split('').forEach(function (chr) {
+  'swaggy123'.split('').forEach(function (chr) {
     casper.sendKeys('input[name=password]', chr, {keepFocus: true});
     utils.snap();
   });

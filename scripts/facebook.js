@@ -50,7 +50,7 @@ casper.start(URL).then(utils.open(function () {
     utils.snap();
   });
 
-  'swaggy'.split('').forEach(function (chr) {
+  'swaggy123'.split('').forEach(function (chr) {
     casper.sendKeys('#pass', chr, {keepFocus: true});
     utils.snap();
   });
@@ -89,7 +89,7 @@ casper.thenOpen(URL).then(utils.open(function () {
     utils.snap();
   });
 
-  'swaggy'.split('').forEach(function (chr) {
+  'swaggy123'.split('').forEach(function (chr) {
     casper.sendKeys('#pass', chr, {keepFocus: true});
     utils.snap();
   });
