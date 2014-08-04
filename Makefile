@@ -1,8 +1,8 @@
 SLIMERJSLAUNCHER?='/Applications/Firefox24.app/Contents/MacOS/firefox'
 
-.PHONY: all screencasts airbnb facebook github
+.PHONY: all screencasts airbnb amazon facebook github
 
-all: airbnb facebook github
+all: airbnb amazon facebook github
 
 screencasts:
 	@pushd scripts && \
@@ -24,6 +24,9 @@ endif
 
 airbnb:
 	@SITE='airbnb' NUMBERS='1 2 3 4 5 6 7 8 9 10' make screencasts
+
+amazon:
+	@SITE='amazon' NUMBERS='1 2 3 4 5' make screencasts
 
 facebook:
 	@SITE='facebook' NUMBERS='1 2' make screencasts
