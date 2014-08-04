@@ -29,7 +29,7 @@ amazon:
 	@SITE='amazon' NUMBERS='1 2 3 4 5' make screencasts
 
 facebook:
-	@SITE='facebook' NUMBERS='1 2' make screencasts
+	@SITE='facebook' NUMBERS='1 2 3 4 5' make screencasts
 
 github:
 	@SITE='github' NUMBERS='1 2 3 4 5' make screencasts

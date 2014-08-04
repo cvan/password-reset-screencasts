@@ -1,12 +1,21 @@
 var casper = require('casper').create();
 
 
-var LOGIN_URL = 'https://www.facebook.com/';
+var LOGIN_URL = 'https://www.facebook.com/login.php';
 var SLUG = 'facebook';
 var DIMENSIONS = {width: 1024, height: 768};
 var shot = 0;
 var scenario = 0;
 
+
+if (typeof Array.from === 'undefined') {
+  // Incomplete polyfill, but suits our needs.
+  Array.from = function (arrayLike) {
+    if (typeof arrayLike === 'string') {
+      return arrayLike.split('');
+    }
+  };
+}
 
 var utils = {
   open: function (func) {
@@ -36,28 +45,76 @@ var utils = {
 };
 
 
-// On homepage.
-// Email provided.
-// Incorrect password provided.
-// Form submitted.
-// Forgot password link clicked.
+// On "Log in" page.
+// Only email provided.
+// "Forgot password" link clicked.
 // -> Email is not preserved.
 casper.start(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
-  'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
     casper.sendKeys('#email', chr, {keepFocus: true});
     utils.snap();
   });
 
-  'swaggy123'.split('').forEach(function (chr) {
+  casper.mouse.move('a[href*="recover"]');
+  utils.snap();
+  casper.mouse.click('a[href*="recover"]');
+  utils.snap();
+
+
+  casper.waitForSelector('#identify_yourself_flow', function () {
+    casper.mouse.click('html');  // So the email isn't autofocussed.
+    utils.snap(20);
+  });
+}));
+
+
+// On "Log in" page.
+// Email and password provided.
+// "Forgot password" link clicked.
+// -> Email is not preserved.
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
+  utils.snap(15);
+
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+    casper.sendKeys('#email', chr, {keepFocus: true});
+    utils.snap();
+  });
+
+  Array.from('swaggy123').forEach(function (chr) {
     casper.sendKeys('#pass', chr, {keepFocus: true});
     utils.snap();
   });
 
-  casper.mouse.move('#login_form input[type=submit]');
+  casper.mouse.move('a[href*="recover"]');
   utils.snap();
-  casper.mouse.click('#login_form input[type=submit]');
+  casper.mouse.click('a[href*="recover"]');
+  utils.snap();
+
+  casper.waitForSelector('#identify_yourself_flow', function () {
+    casper.mouse.click('html');  // So the email isn't autofocussed.
+    utils.snap(20);
+  });
+}));
+
+
+// On "Log in" page.
+// Only email provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> Email is not preserved.
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
+  utils.snap(15);
+
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
+    casper.sendKeys('#email', chr, {keepFocus: true});
+    utils.snap();
+  });
+
+  casper.mouse.move('#login_form input[type="submit"]');
+  utils.snap();
+  casper.mouse.click('#login_form input[type="submit"]');
   utils.snap();
 
   casper.waitForSelector('.login_error_box', function () {
@@ -69,39 +126,87 @@ casper.start(LOGIN_URL).then(utils.open(function () {
     utils.snap();
 
     casper.waitForSelector('#identify_yourself_flow', function () {
-      casper.mouse.click('body');  // So the email isn't autofocussed.
+      casper.mouse.click('html');  // So the email isn't autofocussed.
       utils.snap(20);
     });
   });
 }));
 
 
-// On homepage.
-// Email provided.
-// Incorrect password provided.
-// Forgot password link clicked.
+// On "Log in" page.
+// Email and password provided.
+// Form submitted.
+// "Forgot password" link clicked.
 // -> Email is not preserved.
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
-  'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
     casper.sendKeys('#email', chr, {keepFocus: true});
     utils.snap();
   });
 
-  'swaggy123'.split('').forEach(function (chr) {
+  Array.from('swaggy123').forEach(function (chr) {
     casper.sendKeys('#pass', chr, {keepFocus: true});
     utils.snap();
   });
 
-  casper.mouse.move('a[href*="recover"]');
+  casper.mouse.move('#login_form input[type="submit"]');
   utils.snap();
-  casper.mouse.click('a[href*="recover"]');
+  casper.mouse.click('#login_form input[type="submit"]');
   utils.snap();
 
-  casper.waitForSelector('#identify_yourself_flow', function () {
-    casper.mouse.click('body');  // So the email isn't autofocussed.
+  casper.waitForSelector('.login_error_box', function () {
     utils.snap(20);
+
+    casper.mouse.move('a[href*="recover"]');
+    utils.snap();
+    casper.mouse.click('a[href*="recover"]');
+    utils.snap();
+
+    casper.waitForSelector('#identify_yourself_flow', function () {
+      casper.mouse.click('html');  // So the email isn't autofocussed.
+      utils.snap(20);
+    });
+  });
+}));
+
+
+// On "Log in" page.
+// Different email and password provided.
+// Form submitted.
+// "Forgot password" link clicked.
+// -> New email is not preserved (nor is old email preserved).
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
+  utils.snap(15);
+
+  Array.from('scrantonicity4eva@gmail.com').forEach(function (chr) {
+    casper.sendKeys('#email', chr, {keepFocus: true});
+    utils.snap();
+  });
+
+  Array.from('yolo123').forEach(function (chr) {
+    casper.sendKeys('#pass', chr, {keepFocus: true});
+    utils.snap();
+  });
+
+  casper.mouse.move('#login_form input[type="submit"]');
+  utils.snap();
+  casper.mouse.click('#login_form input[type="submit"]');
+  utils.snap();
+
+  casper.waitForSelector('.login_error_box', function () {
+    utils.snap(20);
+
+    casper.mouse.move('a[href*="recover"]');
+    utils.snap();
+    casper.mouse.click('a[href*="recover"]');
+    utils.snap();
+
+    casper.waitForSelector('#identify_yourself_flow', function () {
+      casper.mouse.click('html');  // So the email isn't autofocussed.
+      utils.snap(20);
+    });
   });
 }));
 
