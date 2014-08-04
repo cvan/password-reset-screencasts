@@ -1,7 +1,7 @@
 var casper = require('casper').create();
 
 
-var URL = 'https://www.facebook.com/';
+var LOGIN_URL = 'https://www.facebook.com/';
 var SLUG = 'facebook';
 var DIMENSIONS = {width: 1024, height: 768};
 var shot = 0;
@@ -42,7 +42,7 @@ var utils = {
 // Form submitted.
 // Forgot password link clicked.
 // -> Email is not preserved.
-casper.start(URL).then(utils.open(function () {
+casper.start(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
@@ -81,7 +81,7 @@ casper.start(URL).then(utils.open(function () {
 // Incorrect password provided.
 // Forgot password link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   'hearcomestreble@gmail.com'.split('').forEach(function (chr) {

@@ -1,7 +1,7 @@
 var casper = require('casper').create();
 
 
-var URL = 'https://www.airbnb.com/';
+var LOGIN_URL = 'https://www.airbnb.com/';
 var SLUG = 'airbnb';
 var DIMENSIONS = {width: 1024, height: 768};
 var shot = 0;
@@ -49,7 +49,7 @@ var utils = {
 // Only email provided.
 // "Forgot password" link clicked.
 // -> Email *is* preserved.
-casper.start(URL).then(utils.open(function () {
+casper.start(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -79,7 +79,7 @@ casper.start(URL).then(utils.open(function () {
 // Email and password provided.
 // "Forgot password" link clicked.
 // -> Email *is* preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -115,7 +115,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> Email *is* preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -155,7 +155,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> Email *is* preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -204,7 +204,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> New email *is* preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -248,14 +248,14 @@ casper.thenOpen(URL).then(utils.open(function () {
 }));
 
 
-URL = 'https://www.airbnb.com/login';
+LOGIN_URL = 'https://www.airbnb.com/login';
 
 
 // On "Log In" page.
 // Only email provided.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -285,7 +285,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Email and password provided.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -321,7 +321,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -360,7 +360,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // // Email and password provided.
 // // Form submitted.
 // // -> Email *is* preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');
@@ -405,7 +405,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> New email is not preserved (nor is old email preserved).
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   casper.mouse.move('#login a');

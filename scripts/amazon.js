@@ -1,7 +1,7 @@
 var casper = require('casper').create();
 
 
-var URL = 'https://www.amazon.com/gp/sign-in.html';
+var LOGIN_URL = 'https://www.amazon.com/gp/sign-in.html';
 var SLUG = 'amazon';
 var DIMENSIONS = {width: 1024, height: 768};
 var shot = 0;
@@ -49,7 +49,7 @@ var utils = {
 // Only email provided.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.start(URL).then(utils.open(function () {
+casper.start(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
@@ -72,7 +72,7 @@ casper.start(URL).then(utils.open(function () {
 // Email and password provided.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
@@ -101,7 +101,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
@@ -134,7 +134,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
@@ -172,7 +172,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Form submitted.
 // "Forgot password" link clicked.
 // -> New email is not preserved (nor is old email preserved).
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
   Array.from('scrantonicity4eva@gmail.com').forEach(function (chr) {

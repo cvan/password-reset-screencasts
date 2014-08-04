@@ -1,7 +1,7 @@
 var casper = require('casper').create();
 
 
-var URL = 'https://github.com/login';
+var LOGIN_URL = 'https://github.com/login';
 var SLUG = 'github';
 var DIMENSIONS = {width: 1024, height: 768};
 var shot = 0;
@@ -40,7 +40,7 @@ var utils = {
 // No password provided.
 // Forgot password link clicked.
 // -> Email is not preserved.
-casper.start(URL).then(utils.open(function () {
+casper.start(LOGIN_URL).then(utils.open(function () {
   utils.snap();
   casper.mouse.click('input[name=login]');
   utils.snap();
@@ -65,7 +65,7 @@ casper.start(URL).then(utils.open(function () {
 // Incomplete password provided.
 // Forgot password link clicked.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap();
   casper.mouse.click('input[name=login]');
   utils.snap();
@@ -95,7 +95,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // No password provided.
 // Form submitted.
 // -> Email is not preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap();
   casper.mouse.click('input[name=login]');
   utils.snap();
@@ -133,7 +133,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // Incorrect password provided.
 // Form submitted.
 // -> Email *is* preserved.
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap();
   casper.mouse.click('input[name=login]');
   utils.snap();
@@ -176,7 +176,7 @@ casper.thenOpen(URL).then(utils.open(function () {
 // No password provided.
 // Forgot password link clicked.
 // -> Previous email is preserved!
-casper.thenOpen(URL).then(utils.open(function () {
+casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap();
   casper.mouse.click('input[name=login]');
   utils.snap();
