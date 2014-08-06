@@ -169,9 +169,8 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 
 // On "Log in" page.
 // Different email and password provided.
-// Form submitted.
 // "Forgot password" link clicked.
-// -> New email is not preserved (nor is old email preserved).
+// -> New email is not preserved (nor is previous email preserved).
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
@@ -185,22 +184,13 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
     utils.snap();
   });
 
-  casper.mouse.move('input[type="submit"]');
+  casper.mouse.move('a[href*="forgotpassword"]');
   utils.snap();
-  casper.mouse.click('input[type="submit"]');
+  casper.mouse.click('a[href*="forgotpassword"]');
   utils.snap();
 
-  casper.waitForSelector('#message_error').then(function () {
+  casper.waitForSelector('#ap_fpp_1a_form').then(function () {
     utils.snap(20);
-
-    casper.mouse.move('a[href*="forgotpassword"]');
-    utils.snap();
-    casper.mouse.click('a[href*="forgotpassword"]');
-    utils.snap();
-
-    casper.waitForSelector('#ap_fpp_1a_form').then(function () {
-      utils.snap(20);
-    });
   });
 }));
 

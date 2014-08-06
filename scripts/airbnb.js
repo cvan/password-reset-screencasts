@@ -201,7 +201,6 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 
 // On homepage.
 // Different email and password provided.
-// Form submitted.
 // "Forgot password" link clicked.
 // -> New email *is* preserved.
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
@@ -223,26 +222,13 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
       utils.snap();
     });
 
-    casper.mouse.move('.login-form button[type=submit]');
+    casper.mouse.move('.forgot-password');
     utils.snap();
-    casper.mouse.click('.login-form button[type=submit]');
+    casper.mouse.click('.forgot-password');
     utils.snap();
 
-    casper.waitFor(function () {
-      return casper.evaluate(function () {
-        return !!document.getElementById('notice').innerHTML;
-      });
-    }).then(function () {
+    casper.waitForSelector('#forgot_password_container').then(function () {
       utils.snap(20);
-
-      casper.mouse.move('.forgot-password');
-      utils.snap();
-      casper.mouse.click('.forgot-password');
-      utils.snap();
-
-      casper.waitForSelector('#forgot_password_container').then(function () {
-        utils.snap(20);
-      });
     });
   });
 }));
@@ -402,9 +388,8 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 
 // On homepage.
 // Different email and password provided.
-// Form submitted.
 // "Forgot password" link clicked.
-// -> New email is not preserved (nor is old email preserved).
+// -> New email is not preserved (nor is previous email preserved).
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
@@ -424,22 +409,13 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
       utils.snap();
     });
 
-    casper.mouse.move('.login-form button[type=submit]');
+    casper.mouse.move('.forgot-password');
     utils.snap();
-    casper.mouse.click('.login-form button[type=submit]');
+    casper.mouse.click('.forgot-password');
     utils.snap();
 
-    casper.waitForSelector('.alert').then(function () {
+    casper.waitForSelector('#forgot_password_container').then(function () {
       utils.snap(20);
-
-      casper.mouse.move('.forgot-password');
-      utils.snap();
-      casper.mouse.click('.forgot-password');
-      utils.snap();
-
-      casper.waitForSelector('#forgot_password_container').then(function () {
-        utils.snap(20);
-      });
     });
   });
 }));

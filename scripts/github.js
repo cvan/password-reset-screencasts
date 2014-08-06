@@ -8,6 +8,15 @@ var shot = 0;
 var scenario = 0;
 
 
+if (typeof Array.from === 'undefined') {
+  // Incomplete polyfill, but suits our needs.
+  Array.from = function (arrayLike) {
+    if (typeof arrayLike === 'string') {
+      return arrayLike.split('');
+    }
+  };
+}
+
 var utils = {
   open: function (func) {
     return function () {
@@ -36,23 +45,21 @@ var utils = {
 };
 
 
-// Email provided.
-// No password provided.
-// Forgot password link clicked.
+// On "Log in" page.
+// Only email provided.
+// "Forgot password" link clicked.
 // -> Email is not preserved.
 casper.start(LOGIN_URL).then(utils.open(function () {
-  utils.snap();
-  casper.mouse.click('input[name=login]');
-  utils.snap();
+  utils.snap(15);
 
-  'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
     casper.sendKeys('input[name=login]', chr, {keepFocus: true});
     utils.snap();
   });
 
-  casper.mouse.move('form a[href*=forgot_password]');
+  casper.mouse.move('a[href*=forgot_password]');
   utils.snap();
-  casper.mouse.click('form a[href*=forgot_password]');
+  casper.mouse.click('a[href*="forgot_password"]');
   utils.snap();
 
   casper.waitForSelector('#forgot_password_form', function() {
@@ -61,28 +68,26 @@ casper.start(LOGIN_URL).then(utils.open(function () {
 }));
 
 
-// Email provided.
-// Incomplete password provided.
-// Forgot password link clicked.
+// On "Log in" page.
+// Email and password provided.
+// "Forgot password" link clicked.
 // -> Email is not preserved.
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
-  utils.snap();
-  casper.mouse.click('input[name=login]');
-  utils.snap();
+  utils.snap(15);
 
-  'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
     casper.sendKeys('input[name=login]', chr, {keepFocus: true});
     utils.snap();
   });
 
-  'swag'.split('').forEach(function (chr) {
+  Array.from('swaggy123').forEach(function (chr) {
     casper.sendKeys('input[name=password]', chr, {keepFocus: true});
     utils.snap();
   });
 
-  casper.mouse.move('form a[href*=forgot_password]');
+  casper.mouse.move('a[href*="forgot_password"]');
   utils.snap();
-  casper.mouse.click('form a[href*=forgot_password]');
+  casper.mouse.click('a[href*="forgot_password"]');
   utils.snap();
 
   casper.waitForSelector('#forgot_password_form', function() {
@@ -91,20 +96,15 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 }));
 
 
-// Email provided.
-// No password provided.
+// On "Log in" page.
+// Only email provided.
 // Form submitted.
+// "Forgot password" link clicked.
 // -> Email is not preserved.
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
-  utils.snap();
-  casper.mouse.click('input[name=login]');
-  utils.snap();
+  utils.snap(15);
 
-  casper.evaluate(function () {
-    document.querySelector('input[name=login]').focus();
-  });
-
-  'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
     casper.sendKeys('input[name=login]', chr, {keepFocus: true});
     utils.snap();
   });
@@ -117,9 +117,9 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   casper.waitForSelector('.flash-messages .flash-error', function() {
     utils.snap(20);
 
-    casper.mouse.move('form a[href*=forgot_password]');
+    casper.mouse.move('a[href*="forgot_password"]');
     utils.snap();
-    casper.mouse.click('form a[href*=forgot_password]');
+    casper.mouse.click('a[href*="forgot_password"]');
     utils.snap();
 
     casper.waitForSelector('#forgot_password_form', function() {
@@ -129,25 +129,20 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 }));
 
 
-// Email provided.
-// Incorrect password provided.
+// On "Log in" page.
+// Email and password provided.
 // Form submitted.
+// "Forgot password" link clicked.
 // -> Email *is* preserved.
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
-  utils.snap();
-  casper.mouse.click('input[name=login]');
-  utils.snap();
+  utils.snap(15);
 
-  casper.evaluate(function () {
-    document.querySelector('input[name=login]').focus();
-  });
-
-  'hearcomestreble@gmail.com'.split('').forEach(function (chr) {
+  Array.from('hearcomestreble@gmail.com').forEach(function (chr) {
     casper.sendKeys('input[name=login]', chr, {keepFocus: true});
     utils.snap();
   });
 
-  'swaggy123'.split('').forEach(function (chr) {
+  Array.from('swaggy123').forEach(function (chr) {
     casper.sendKeys('input[name=password]', chr, {keepFocus: true});
     utils.snap();
   });
@@ -160,9 +155,9 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   casper.waitForSelector('.flash-messages .flash-error', function() {
     utils.snap(20);
 
-    casper.mouse.move('form a[href*=forgot_password]');
+    casper.mouse.move('a[href*="forgot_password"]');
     utils.snap();
-    casper.mouse.click('form a[href*=forgot_password]');
+    casper.mouse.click('a[href*="forgot_password"]');
     utils.snap();
 
     casper.waitForSelector('#forgot_password_form', function() {
@@ -172,27 +167,26 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 }));
 
 
-// Different email provided.
-// No password provided.
-// Forgot password link clicked.
-// -> Previous email is preserved!
+// On "Log in" page.
+// Different email and password provided.
+// "Forgot password" link clicked.
+// -> Previous email *is* preserved!
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
-  utils.snap();
-  casper.mouse.click('input[name=login]');
-  utils.snap();
+  utils.snap(15);
 
-  casper.evaluate(function () {
-    document.querySelector('input[name=login]').focus();
-  });
-
-  'scrantonicity@gmail.com'.split('').forEach(function (chr) {
+  Array.from('scrantonicity@gmail.com').forEach(function (chr) {
     casper.sendKeys('input[name=login]', chr, {keepFocus: true});
     utils.snap();
   });
 
-  casper.mouse.move('form a[href*=forgot_password]');
+  Array.from('yolo123').forEach(function (chr) {
+    casper.sendKeys('input[name=password]', chr, {keepFocus: true});
+    utils.snap();
+  });
+
+  casper.mouse.move('a[href*="forgot_password"]');
   utils.snap();
-  casper.mouse.click('form a[href*=forgot_password]');
+  casper.mouse.click('a[href*="forgot_password"]');
   utils.snap();
 
   casper.waitForSelector('#forgot_password_form', function() {

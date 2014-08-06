@@ -62,7 +62,6 @@ casper.start(LOGIN_URL).then(utils.open(function () {
   casper.mouse.click('a[href*="recover"]');
   utils.snap();
 
-
   casper.waitForSelector('#identify_yourself_flow', function () {
     casper.mouse.click('html');  // So the email isn't autofocussed.
     utils.snap(20);
@@ -174,9 +173,8 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
 
 // On "Log in" page.
 // Different email and password provided.
-// Form submitted.
 // "Forgot password" link clicked.
-// -> New email is not preserved (nor is old email preserved).
+// -> New email is not preserved (nor is previous email preserved).
 casper.thenOpen(LOGIN_URL).then(utils.open(function () {
   utils.snap(15);
 
@@ -190,23 +188,14 @@ casper.thenOpen(LOGIN_URL).then(utils.open(function () {
     utils.snap();
   });
 
-  casper.mouse.move('#login_form input[type="submit"]');
+  casper.mouse.move('a[href*="recover"]');
   utils.snap();
-  casper.mouse.click('#login_form input[type="submit"]');
+  casper.mouse.click('a[href*="recover"]');
   utils.snap();
 
-  casper.waitForSelector('.login_error_box', function () {
+  casper.waitForSelector('#identify_yourself_flow', function () {
+    casper.mouse.click('html');  // So the email isn't autofocussed.
     utils.snap(20);
-
-    casper.mouse.move('a[href*="recover"]');
-    utils.snap();
-    casper.mouse.click('a[href*="recover"]');
-    utils.snap();
-
-    casper.waitForSelector('#identify_yourself_flow', function () {
-      casper.mouse.click('html');  // So the email isn't autofocussed.
-      utils.snap(20);
-    });
   });
 }));
 
