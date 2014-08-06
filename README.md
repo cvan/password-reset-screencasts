@@ -8,7 +8,6 @@ Screencasts of good and bad UX for "Password Reset" flows for the following site
 * GitHub
 * Google
 * Kickstarter
-* LinkedIn
 * Pinterest
 * Tumblr
 * Twitter
