@@ -22,7 +22,7 @@ Using [Homebrew](http://brew.sh/), install the following:
 
     brew install casperjs slimerjs ffmpeg --with-libvpx --with-theora --with-libogg --with-libvorbis
 
-If you've already installed ffmpeg but without the aforementioned codes, reinstall:
+If you've already installed ffmpeg but without the aforementioned codecs, reinstall:
 
     brew install ffmpeg --with-libvpx --with-theora --with-libogg --with-libvorbis
 
