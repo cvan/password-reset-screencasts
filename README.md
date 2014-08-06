@@ -1,8 +1,19 @@
 # password-reset-screencasts
 
-Screencasts of good and bad UX for "Password Reset" flows.
+Screencasts of good and bad UX for "Password Reset" flows for the following sites:
 
-Created using CasperJS (using the SlimerJS engine) and ffmeg.
+* Airbnb
+* Amazon
+* Facebook
+* GitHub
+* Google
+* Kickstarter
+* LinkedIn
+* Pinterest
+* Tumblr
+* Twitter
+
+Created using CasperJS (using the SlimerJS engine) and ffmeg (to stitch screencasts together to create `.webm` and `.mp4` videos).
 
 
 ## Installation
@@ -18,8 +29,16 @@ If you've already installed ffmpeg but without the aforementioned codes, reinsta
 
 ## Usage
 
+First set the `SLIMERJSLAUNCHER` environment variable if you wish to override the location of the Firefox binary to use with SlimerJS.
+
 To generate all the screencasts:
 
     make
 
-Set the `SLIMERJSLAUNCHER` environment variable to override the location of the Firefox binary to use with SlimerJS.
+To generate screencasts for only one site:
+
+    make airbnb
+
+To do a dry run (i.e., run the CasperJS scripts only but skip the video processing):
+
+    DRY='1' make airbnb
