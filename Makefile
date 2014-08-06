@@ -1,8 +1,8 @@
 SLIMERJSLAUNCHER?='/Applications/Firefox24.app/Contents/MacOS/firefox'
 
-.PHONY: all screencasts airbnb amazon facebook github google kickstarter pinterest
+.PHONY: all screencasts airbnb amazon facebook github google kickstarter pinterest tumblr
 
-all: airbnb amazon facebook github google kickstarter pinterest
+all: airbnb amazon facebook github google kickstarter pinterest tumblr
 
 screencasts:
 	@pushd scripts && \
@@ -42,3 +42,6 @@ kickstarter:
 
 pinterest:
 	@SITE='pinterest' NUMBERS='1 2 3 4 5' make screencasts
+
+tumblr:
+	@SITE='tumblr' NUMBERS='1 2 3 4 5' make screencasts
