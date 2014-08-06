@@ -38,6 +38,6 @@ To generate screencasts for only one site:
 
     make airbnb
 
-To do a dry run (i.e., run the CasperJS scripts only but skip the video processing):
+To do a dry run (i.e., run the CasperJS scripts only and skip the video processing):
 
     DRY='1' make airbnb
